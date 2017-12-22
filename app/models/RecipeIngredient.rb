@@ -1,9 +1,10 @@
 class RecipeIngredient
+
   attr_accessor :ingredient, :recipe
 
   @@all = []
 
-  def initialize(recipe, ingredient) #if using a join method as a join tbl remember tp instantiate with those classes
+  def initialize(ingredient, recipe)
     @ingredient = ingredient
     @recipe = recipe
     @@all << self

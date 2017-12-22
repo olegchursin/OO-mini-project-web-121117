@@ -1,12 +1,12 @@
 class RecipeCard
-
-  attr_accessor :date, :recipe, :rating, :user
+  attr_accessor :user, :recipe, :date, :rating
 
   @@all = []
 
-  def initialize(recipe, date, rating)
+  def initialize(user, recipe, rating)
+    @user = user
     @recipe = recipe
-    @date = date
+    @date = Time.now
     @rating = rating
     @@all << self
   end
@@ -14,10 +14,5 @@ class RecipeCard
   def self.all
     @@all
   end
-
-  # def self.create(recipe, date, rating)
-  #   new_recipe_card = Self.new(recipe, date, rating)
-  #   @@all << new_recipe_card
-  # end
 
 end

@@ -1,49 +1,51 @@
 class User
 
-  attr_accessor :name, :user
+  attr_accessor :name, :allergens
 
   @@all = []
 
   def initialize(name)
     @name = name
     @recipes = []
-    @allergens = []
     @@all << self
   end
 
-  def self.all # this works!
+  def self.all
     @@all
   end
 
-  def recipes  # this works!
-    @recipes
+  # iterate over RecipeCard.all array and return instance.recipe if instance.user == self
+  def recipes
+    RecipeCard.all.map { |recipe_card| recipe_card.recipe if recipe_card.user == self}
   end
 
-  def add_recipe_card(recipe, date, rating)
-    new_recipe_card = RecipeCard.new(recipe, date, rating) # this works!
+  # creates RecipeCard instance for the RecipeCard join class
+  def add_recipe_card(recipe)
+    recipe_card_new = RecipeCard.new(self, recipe, rating)
     @recipes << recipe
-    new_recipe_card.user = self # self is a user
-    new_recipe_card.recipe = recipe
-    new_recipe_card
   end
 
-  def declare_allergen(ingredient)  # works!
-    new_allergen = Allergen.new(ingredient)
-    @allergens << new_allergen
+  def declare_allergen(ingredient)
+    allergen_new = Allergen.new(ingredient, self)
   end
 
-  def allergens # works!
-    @allergens
+  # return ingredients this user is allergic TOPLEVEL_BINDING
+  # iterate over allergens array with .map and return i.ingredient if i.user == self
+  def allergens
+    Allergen.all.map { |allergen| allergen.ingredient if allergen.user == self  }
   end
 
-  def top_three_recipes # works!
-    user_recipe_cards = RecipeCard.all.select { |recipe_card| recipe_card.user == self}  # => array of user's cards
-    top_three_recipe_cards = user_recipe_cards.sort_by {|x| x.rating }.reverse!.take(3)  # => arrray of top three cards
-    top_three_recipe_cards.map {|recipe_card| recipe_card.recipe}    # => recipes
+  # return highest rated recipes for this user
+  # iterate over RecipeCard.all with .sort_by i.rating if i.user == self
+  # => sorted ASC array with user's recipe
+  # reverse the resulted array into DESC with .reverse.map and choose the first three elements with [0..2]
+  def top_three_recipes
+    sorted_array = RecipeCard.all.sort_by {|recipe_card| recipe_card.rating if recipe_card.user == self}
+    sorted_array.reverse.map {|recipe_card| recipe_card.recipe }[0..2]
   end
 
-  def most_recent_recipe # works!
+  def most_recent_recipe
     @recipes.last
   end
 
-end
+end 
