@@ -15,9 +15,9 @@ class RecipeCard
     @@all
   end
 
-  def self.create(recipe, date, rating)
-    new_recipe_card = Self.new(recipe, date, rating)
-    @@all << new_recipe_card
-  end
+  # def self.create(recipe, date, rating)
+  #   new_recipe_card = Self.new(recipe, date, rating)
+  #   @@all << new_recipe_card
+  # end
 
 end
